@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "255257802065",
+    "firebase_url": "https://quick-menu-cbe0b.firebaseio.com",
+    "project_id": "quick-menu-cbe0b",
+    "storage_bucket": "quick-menu-cbe0b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:255257802065:android:bd2e02e0d037553e250f70",
+        "android_client_info": {
+          "package_name": "com.kelvin.quickmenu"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "255257802065-mgj60vobf1co35lv34j1jro7jjbr2e5c.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAnCHRRANWadLqnoWaXDskxwLXbFD0Kll0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "255257802065-mgj60vobf1co35lv34j1jro7jjbr2e5c.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
