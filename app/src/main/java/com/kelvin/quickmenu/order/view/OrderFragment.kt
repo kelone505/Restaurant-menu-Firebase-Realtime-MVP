@@ -42,8 +42,9 @@ class OrderFragment : Fragment(),OrderContract.View {
         etSubTotal=root.findViewById(R.id.etSubTotal)
         etTax=root.findViewById(R.id.etTax)
         etTips=root.findViewById(R.id.etTips)
-      //  etTotal=root.findViewById(R.id.etTotal)
+        etTotal=root.findViewById(R.id.etTotal)
         btnConfirm=root.findViewById(R.id.btnConfirm)
+        presenter.onViewCreated()
         btnConfirm.setOnClickListener {
             var s:String=""
             for(x in OrderSingleton.getArrayItems()){
@@ -59,38 +60,12 @@ class OrderFragment : Fragment(),OrderContract.View {
         super.onDestroy()
     }
 
-    override fun onResume() {
-        var s:String=""
-        for(x in OrderSingleton.getArrayItems()){
-            s=s + x.getName() + "\n"
-            etDetailO.setText(s)
-        }
-        super.onResume()
-    }
-
-    override fun onPause() {
-        var s:String=""
-        for(x in OrderSingleton.getArrayItems()){
-            s=s + x.getName() + "\n"
-            etDetailO.setText(s)
-        }
-        super.onPause()
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        etTotal=view.findViewById(R.id.etTotal)
-       // presenter.onViewCreated()
-
-        super.onViewCreated(view, savedInstanceState)
-    }
 
     override fun showItemselected(details: StringBuilder) {
         etDetailO.setText("")
         etDetailO.append(details)
         Toast.makeText(requireContext(), OrderSingleton.getArrayItems().size.toString(), Toast.LENGTH_SHORT).show()
     }
-
-
 
 
     override fun showHeaderOrder(header: String) {

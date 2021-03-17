@@ -15,16 +15,12 @@ object OrderSingleton {
         this.client= DeviceName.getDeviceName()
         this.items= ArrayList()
     }
-    fun addItem(item: ItemByCategory){
-
-        if(item!=null)
-        {this.items.add(item)
-
-        }}
+    fun addItem(item: ItemByCategory){if(item!=null)this.items.add(item) }
     fun removeItem(item: ItemByCategory){
         if(items.contains(item)) this.items.remove(item)}
     fun getArrayItems():ArrayList<ItemByCategory>{
          return this.items}
     fun getClient():String{return this.client}
+
 
 }

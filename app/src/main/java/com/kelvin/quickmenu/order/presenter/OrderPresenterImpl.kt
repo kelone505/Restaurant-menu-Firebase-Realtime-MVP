@@ -31,18 +31,15 @@ class OrderPresenterImpl:OrderContract.Presenter {
             }
         })
 
-
-
     }
-
 
     override fun onDestroy() {
         mView=null!!
     }
 
     override fun onViewCreated() {
-        listOfItems()
         headerInfo()
+        listOfItems()
     }
 
     override fun headerInfo() {
