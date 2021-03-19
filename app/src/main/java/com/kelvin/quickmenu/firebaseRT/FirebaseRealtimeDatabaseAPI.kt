@@ -4,7 +4,6 @@ import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 
  object FirebaseRealtimeDatabaseAPI {
-
     const val PATH_MENU="menu"
      const val PATH_CAT="category"
      const val PATH_ITEM="items"

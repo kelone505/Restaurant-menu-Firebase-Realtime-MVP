@@ -2,7 +2,6 @@ package com.kelvin.quickmenu.common
 
 import java.math.BigDecimal
 import java.math.RoundingMode
-import java.text.DecimalFormat
 import java.text.NumberFormat
 import java.util.*
 

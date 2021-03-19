@@ -10,10 +10,8 @@ interface CategoryContract {
     }
     interface Presenter{
         fun listCategory()
-        fun itemselected()
         fun onViewDestroy()
         fun onViewCreated()
-        fun onPause()
     }
     interface Interactor{
         fun getCategory(listener:Callback):ArrayList<Category> //

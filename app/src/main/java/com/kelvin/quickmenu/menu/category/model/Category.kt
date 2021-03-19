@@ -1,28 +1,12 @@
 package com.kelvin.quickmenu.menu.category.model
 
 class Category {
-    companion object{
-        lateinit var listCategory:ArrayList<Category>
-    }
-
     private var _id:Int=0
     private var name:String=""
     private var image:String=""
     private var status:Boolean=false
 
-     constructor()
-
-   /*  constructor(pid:Int,pname:String,pimage:String,pStatus:Boolean){
-        this._id=pid
-        this.name=pname
-        this.image=pimage
-        this.status=pStatus
-    }
-    constructor(pname:String,pimage:String,pStatus:Boolean){
-        this.name=pname
-        this.image=pimage
-        this.status=pStatus
-    }*/
+    constructor(){}
 
     fun setId(id:Int){this._id=id}
     fun getId():Int{return this._id}

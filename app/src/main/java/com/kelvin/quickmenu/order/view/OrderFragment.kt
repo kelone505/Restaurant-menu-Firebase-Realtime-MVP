@@ -4,53 +4,55 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.EditText
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import com.kelvin.quickmenu.R
 import com.kelvin.quickmenu.common.utility
-import com.kelvin.quickmenu.menu.itemsByCategory.model.ItemByCategory
 import com.kelvin.quickmenu.order.interfaces.OrderContract
-import com.kelvin.quickmenu.order.model.OrderInteractorImpl
 import com.kelvin.quickmenu.order.model.OrderSingleton
 import com.kelvin.quickmenu.order.presenter.OrderPresenterImpl
-import java.lang.StringBuilder
 
 class OrderFragment : Fragment(),OrderContract.View {
-    private var presenter=OrderPresenterImpl(this,OrderInteractorImpl())
-   private lateinit var etDetailO:EditText
+    private var presenter=OrderPresenterImpl(this,OrderSingleton)
+   private lateinit var tvItem:TextView
+    private lateinit var tvPrice:TextView
+    private lateinit var tvQuantity:TextView
+    private lateinit var tvTotal:TextView
    private lateinit var tvHeaderO:TextView
    private lateinit var etSubTotal:EditText
    private lateinit var etTax:EditText
     private lateinit var etTips:EditText
     private lateinit var etTotal:EditText
     private lateinit var btnConfirm:Button
+    private lateinit var pbLoadingOrder:ProgressBar
+    private lateinit var cbTips:CheckBox
     override fun onCreateView(
             inflater: LayoutInflater,
             container: ViewGroup?,
             savedInstanceState: Bundle?
     ): View? {
-
         val root = inflater.inflate(R.layout.fragment_order, container, false)
-       // val textView: TextView = root.findViewById(R.id.text_dashboard)
-        etDetailO=root.findViewById(R.id.etDetailOrder)
+        val tvTax=root.findViewById(R.id.tvTax) as TextView
+        cbTips=root.findViewById<CheckBox>(R.id.cbTips)
+        tvItem=root.findViewById(R.id.tvItem)
+        tvQuantity=root.findViewById(R.id.tvQuantityItem)
+        tvPrice=root.findViewById(R.id.tvPriceItem)
+        tvTotal=root.findViewById(R.id.tvSubTotalItem)
         tvHeaderO=root.findViewById(R.id.tvDateOrder)
         etSubTotal=root.findViewById(R.id.etSubTotal)
         etTax=root.findViewById(R.id.etTax)
         etTips=root.findViewById(R.id.etTips)
         etTotal=root.findViewById(R.id.etTotal)
         btnConfirm=root.findViewById(R.id.btnConfirm)
+        pbLoadingOrder=root.findViewById(R.id.pbLoadingOrder)
         presenter.onViewCreated()
-        btnConfirm.setOnClickListener {
-            var s:String=""
-            for(x in OrderSingleton.getArrayItems()){
-                s=s + x.getName() + "\n"
-                etDetailO.setText(s)
-            }
+        cbTips.isChecked=presenter.checkboxStatus()
+        tvTax.setText("TAX ${utility.percentage.format(OrderSingleton.TAX)}:")
+        cbTips.setText("TIPS ${utility.percentage.format(OrderSingleton.TIPS)}:")
+
+        cbTips.setOnClickListener {
+            allowTips()
+            presenter.loadOrderInvoice()
         }
         return root
     }
@@ -60,13 +62,13 @@ class OrderFragment : Fragment(),OrderContract.View {
         super.onDestroy()
     }
 
+    override fun showItemselected(item: String, quantity: String, price: String, total: String) {
+        tvItem.setText("Items\n${item}")
+        tvQuantity.setText("Quantity\n${quantity}")
+        tvPrice.setText("Price\n${price}")
+        tvTotal.setText("Total\n${total}")
 
-    override fun showItemselected(details: StringBuilder) {
-        etDetailO.setText("")
-        etDetailO.append(details)
-        Toast.makeText(requireContext(), OrderSingleton.getArrayItems().size.toString(), Toast.LENGTH_SHORT).show()
     }
-
 
     override fun showHeaderOrder(header: String) {
         tvHeaderO.setText("Client: "+header)
@@ -83,4 +85,20 @@ class OrderFragment : Fragment(),OrderContract.View {
     override fun showMsgConfirmation(msg: String) {
         Toast.makeText(requireContext(), msg, Toast.LENGTH_LONG).show()
     }
+
+    override fun allowTips(){
+        if(cbTips.isChecked) presenter.confirmTips(true)
+        else presenter.confirmTips(false)
+    }
+
+    override fun showProgressDialog() {
+        pbLoadingOrder.visibility=View.VISIBLE
+    }
+
+
+    override fun hideProgressDialog() {
+      pbLoadingOrder.visibility=View.GONE
+    }
+
+
 }

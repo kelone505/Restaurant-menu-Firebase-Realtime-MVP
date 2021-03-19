@@ -18,19 +18,19 @@ class CategoryAdapter(private val getContext: Context, private val customlayouti
                       private var list: ArrayList<Category>)
     : ArrayAdapter<Category>(getContext, customlayoutid, list){
 
-
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
         var inflater = (getContext as Activity).layoutInflater
         var rowView = inflater!!.inflate(customlayoutid, parent, false)
         var txtName = rowView.findViewById(R.id.tvName) as TextView
         var img = rowView.findViewById(R.id.ivItemMenuCat) as ImageView
         txtName!!.setText(list[position].getNameCategory())
+
         Glide.with(getContext)
             .load(list[position].getImageCategory())
             .centerCrop()
             .error(android.R.drawable.ic_menu_report_image)
-            .circleCrop().dontAnimate()
             .into(img)
+
         rowView.setOnClickListener {
             val itemsFragment= ItemsByCategoryFragment()
             val bundle= Bundle()
@@ -39,11 +39,10 @@ class CategoryAdapter(private val getContext: Context, private val customlayouti
             MainActivity.itemByCategory.arguments=bundle
 
             MainActivity.manager.beginTransaction().replace(R.id.nav_host_fragment,MainActivity.itemByCategory)
-                    .setCustomAnimations(R.anim.fragment_close_enter,R.anim.fragment_fade_exit)
+                    .setCustomAnimations(R.anim.fragment_open_enter,R.anim.fragment_open_exit)
                     .hide(MainActivity.categoryFragment)
                     .addToBackStack(null).commit()
         }
-
         return rowView
     }
 

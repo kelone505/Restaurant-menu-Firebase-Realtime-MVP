@@ -8,12 +8,14 @@ interface ItemContract {
         fun showItemsByCategory(items:ArrayList<ItemByCategory>)
         fun showErrorMsg(msg:String)
     }
+    interface ViewAdapter{
+
+    }
 
     interface Presenter{
         fun listItems(id:Int)
         fun onViewDestroy()
-        //fun onViewCreated()
-
+      //  fun onViewCreated()
     }
 
     interface Interactor{

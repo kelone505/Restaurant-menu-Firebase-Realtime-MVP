@@ -3,7 +3,6 @@ package com.kelvin.quickmenu.menu.itemsByCategory.model
 import com.kelvin.quickmenu.common.utility
 import java.math.BigDecimal
 
-
 class ItemByCategory {
     companion object{
         const val MIN_PRICE:Double=0.01
@@ -13,13 +12,11 @@ class ItemByCategory {
     private var name:String=""
     private var image:String=""
     private var description:String=""
-    private var price:Double=0.0
+    private var price:Double= MIN_PRICE
     private var available:Int=0
     private var status:Boolean=false
 
-    constructor(){
-
-    }
+    constructor(){}
 
     fun setID(id:Int){this._id=id}
     fun getID():Int{return this._id}
@@ -29,7 +26,9 @@ class ItemByCategory {
     fun getImage():String{return this.image}
     fun setDescription(desc:String){this.description=desc}
     fun getDescription():String{return this.description}
-    fun setPrice(price:Double){this.price=price}
+    fun setPrice(price:Double){
+        if(price<=0.0) this.price= MIN_PRICE
+        else this.price=price}
     fun getPrice():BigDecimal{
         return utility.roundTwoDecimal(this.price)}
     fun setAvailable(available:Int){this.available=available}

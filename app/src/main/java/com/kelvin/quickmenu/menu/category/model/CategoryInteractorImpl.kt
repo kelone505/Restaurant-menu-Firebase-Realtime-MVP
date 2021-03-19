@@ -5,10 +5,7 @@ import com.kelvin.quickmenu.menu.category.interfaces.CategoryContract
 
 class CategoryInteractorImpl:CategoryContract.Interactor {
     private var realtimeDatabase:RealtimeDatabase
-    constructor(){
-        this.realtimeDatabase= RealtimeDatabase()
-    }
-
+    constructor(){this.realtimeDatabase= RealtimeDatabase()}
 
     override fun getCategory(listener:Callback): ArrayList<Category> {
         var list:ArrayList<Category>
@@ -20,10 +17,6 @@ class CategoryInteractorImpl:CategoryContract.Interactor {
                 listener.onFailure(errorMsg)
             }
         })
-
         return list
-
     }
-
-
 }

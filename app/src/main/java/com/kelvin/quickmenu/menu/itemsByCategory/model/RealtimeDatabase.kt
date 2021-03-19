@@ -1,12 +1,15 @@
 package com.kelvin.quickmenu.menu.itemsByCategory.model
 
+import android.util.Log
+import android.widget.Toast
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseException
 import com.google.firebase.database.ValueEventListener
 import com.kelvin.quickmenu.common.Callback
 import com.kelvin.quickmenu.firebaseRT.FirebaseRealtimeDatabaseAPI
-import java.math.BigDecimal
+import com.kelvin.quickmenu.order.model.OrderSingleton
+
 
 class RealtimeDatabase {
     private var mRealtimeDatabase:FirebaseRealtimeDatabaseAPI
@@ -19,35 +22,29 @@ class RealtimeDatabase {
 
     fun getAllItemsByCategory(id:Int,listener:Callback):ArrayList<ItemByCategory>{
 
-        mRealtimeDatabase.getItemByCategory(id).addValueEventListener(object : ValueEventListener{
+        mRealtimeDatabase.getItemByCategory(id).addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 list.clear()
                 try {
-                    if(snapshot.getValue()!=null){
-                        for(n in snapshot.children){
-                            val item:ItemByCategory=n.getValue(ItemByCategory::class.java) as ItemByCategory
-                            item.setID(n.key!!.toInt())
-                            if(item.getPrice() <= BigDecimal.valueOf(0.0))item.setPrice(ItemByCategory.MIN_PRICE)
-                           /* if(item.getName().isNullOrBlank() || item.getImage().isNullOrBlank() || item.getPrice()!=0.0)
-                            {
+                    if (snapshot.getValue() != null) {
+                        for (n in snapshot.children) {
+                            val item: ItemByCategory = n.getValue(ItemByCategory::class.java) as ItemByCategory
+                            if (OrderSingleton.getItems().any { it.key.getName() == item.getName() } && item.getStatus()) {
+                                var sameObject=OrderSingleton.getItems().filter { it.key.getName()==item.getName() }.map{it.key}[0]
+                                sameObject.setPrice(item.getPrice().toDouble())
+                                list.add(sameObject)
+                            } else {
                                 item.setID(n.key!!.toInt())
-                                item.setName(n.child("name").getValue(String::class.java).toString())
-                                item.setImage(n.child("image").getValue(String::class.java).toString())
-                                item.setDescription(n.child("description").getValue(String::class.java).toString())
-                                item.setPrice(n.child("price").getValue(Double::class.java) as Double)
-                                item.setAvailable(n.child("available").getValue(Int::class.java) as Int)
-                                item.setStatus(n.child("status").getValue(Boolean::class.java) as Boolean)
-                            }*/
-                            if(item.getStatus() && !list.contains(item)) list.add(item)
-                            else list.remove(item)
+                                if (item.getStatus() && !list.contains(item)) list.add(item)
+                                else list.remove(item)
+                            }
+
                         }
                         listener.onSuccess()
                     }
-
-                }catch (e:DatabaseException){
+                } catch (e: DatabaseException) {
                     listener.onFailure(e.message.toString())
                 }
-
             }
 
             override fun onCancelled(error: DatabaseError) {

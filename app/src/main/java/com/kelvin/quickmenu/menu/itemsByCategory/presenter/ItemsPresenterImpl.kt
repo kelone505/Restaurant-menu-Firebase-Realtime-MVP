@@ -1,8 +1,10 @@
 package com.kelvin.quickmenu.menu.itemsByCategory.presenter
 
+import android.widget.Toast
 import com.kelvin.quickmenu.common.Callback
 import com.kelvin.quickmenu.menu.itemsByCategory.interfaces.ItemContract
 import com.kelvin.quickmenu.menu.itemsByCategory.model.ItemByCategory
+import com.kelvin.quickmenu.order.model.OrderSingleton
 
 class ItemsPresenterImpl:ItemContract.Presenter {
     private var mView:ItemContract.View?
@@ -28,7 +30,7 @@ class ItemsPresenterImpl:ItemContract.Presenter {
         mView=null
     }
 
-   /* override fun onViewCreated() {
+  /*  override fun onViewCreated() {
         listItems()
     }*/
 

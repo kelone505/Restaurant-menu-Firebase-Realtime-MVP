@@ -9,9 +9,9 @@ class CategoryPresenterImpl:CategoryContract.Presenter {
     var interactor:CategoryContract.Interactor
     var view:CategoryContract.View?
 
-    constructor(pview:CategoryContract.View, pinteractor:CategoryContract.Interactor){
-        this.view=pview
-        this.interactor=pinteractor
+    constructor(pView:CategoryContract.View, pInteractor:CategoryContract.Interactor){
+        this.view=pView
+        this.interactor=pInteractor
     }
 
     override fun listCategory() {
@@ -25,20 +25,12 @@ class CategoryPresenterImpl:CategoryContract.Presenter {
             }
         })
     }
-
-    override fun itemselected() {
-        onPause()
-    }
-
     override fun onViewDestroy() {
         view=null;
     }
-
     override fun onViewCreated() {
         listCategory()
     }
 
-    override fun onPause() {
-        view==null
-    }
+
 }

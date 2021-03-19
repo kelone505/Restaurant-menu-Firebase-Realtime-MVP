@@ -5,10 +5,7 @@ import android.telecom.Call
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.CheckBox
-import android.widget.ImageView
-import android.widget.TextView
+import android.widget.*
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
@@ -55,15 +52,29 @@ class ItemByCategoryAdapter(private val itemList:ArrayList<ItemByCategory>,
             var count=0
 
             btnLess.setEnabled(false)
-            quantity.setText("${count}")
+
             Glide.with(context).load(item.getImage()).centerCrop()
                     .error(android.R.drawable.ic_menu_report_image)
                     //.circleCrop()
-                    .apply(RequestOptions().override(80,80))
+                    .apply(RequestOptions())
                     .into(img)
             name.setText(item.getName())
+
+            if(OrderSingleton.getItems().any{it.key.getName()==name.text}){
+                count = OrderSingleton.getItems().filter {it.key.getName()==name.text}.map{it.value}[0]
+                Toast.makeText(context, "testt ${count}", Toast.LENGTH_SHORT).show()
+                btnLess.isEnabled=true
+                cbAddToOrder.isChecked=true
+                quantity.setText("${count}")
+                price.setText("${utility.currencyFormat.format(item.getPrice()*count.toBigDecimal())}")
+            }else{
+                quantity.setText("${count}")
+                price.setText("${utility.currencyFormat.format(item.getPrice())}")
+                }
+
+
              descrip.setText(item.getDescription())
-            price.setText("${utility.currencyFormat.format(item.getPrice())}")
+
             btnLess.setOnClickListener {
                 if(count>0) {
                     quantity.setText("${--count}")
@@ -72,19 +83,28 @@ class ItemByCategoryAdapter(private val itemList:ArrayList<ItemByCategory>,
                         price.setText("${utility.currencyFormat.format(item.getPrice())}")
                     }
                 }else btnLess.setEnabled(false)
-                if(OrderSingleton.getArrayItems().contains(item)) OrderSingleton.removeItem(item)
+                if (cbAddToOrder.isChecked && count>0){
+                    OrderSingleton.addItemQuantity(item,count)
+                }else if(count==0) {OrderSingleton.removeItem(item)
+                    cbAddToOrder.isChecked=false
+                }
             }
             btnPlus.setOnClickListener {
                 if(count<item.getAvailable())
                     quantity.setText("${++count}")
                     price.setText("${utility.currencyFormat.format(item.getPrice()* BigDecimal.valueOf(count.toDouble()))}")
                 btnLess.setEnabled(true)
+                if(cbAddToOrder.isChecked){OrderSingleton.addItemQuantity(item,count)}
             }
             cbAddToOrder.setOnClickListener {
-                for(x in 1..count){
-                    OrderSingleton.addItem(item)
+                if(cbAddToOrder.isChecked){
+                    OrderSingleton.addItemQuantity(item,count)
+                } else if(OrderSingleton.getItems().contains(item))
+                {OrderSingleton.removeItem(item)
+                    count=0
+                    quantity.setText("${count}")
+                    btnLess.isEnabled=false}
 
-                }
             }
 
         }

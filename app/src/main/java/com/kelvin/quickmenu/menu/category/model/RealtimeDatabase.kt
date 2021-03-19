@@ -1,36 +1,39 @@
 package com.kelvin.quickmenu.menu.category.model
 
 
-import com.google.firebase.database.*
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.DatabaseException
+import com.google.firebase.database.ValueEventListener
 import com.kelvin.quickmenu.common.Callback
 import com.kelvin.quickmenu.firebaseRT.FirebaseRealtimeDatabaseAPI
 
 
 class RealtimeDatabase {
     private var mDatabaseApi:FirebaseRealtimeDatabaseAPI
+    private var list:ArrayList<Category>
 
     constructor() {
         this.mDatabaseApi=FirebaseRealtimeDatabaseAPI
-        Category.listCategory= ArrayList()
+        this.list= ArrayList()
     }
 
     fun getAllCategory(listener: Callback):ArrayList<Category>{
-
         mDatabaseApi.getMenuCategorie().addValueEventListener(object : ValueEventListener{
             override fun onDataChange(snapshot: DataSnapshot) {
-                Category.listCategory.clear()
+                list.clear()
                         try {
                             if (snapshot.getValue()!=null) {
                                 for (n in snapshot.children) {
-                                    val cat:Category = n.getValue(Category::class.java) as Category
+                                    var cat=n.getValue(Category::class.java) as Category
                                      if (cat.getImageCategory().isNullOrBlank() || cat.getImageCategory().isNullOrBlank()) {
                                          cat.setId(n.key!!.toInt())
                                          cat.setNameCategory(n.child("name").getValue(String::class.java).toString())
                                          cat.setImageCategory(n.child("image").getValue(String::class.java).toString())
                                          cat.setStatusCat(n.child("status").getValue(Boolean::class.java) as Boolean)
                                      }
-                                    if (cat.getStatusCat() && !Category.listCategory.contains(cat)) Category.listCategory.add(cat)
-                                    else Category.listCategory.remove(cat)
+                                    if (cat.getStatusCat() && !list.contains(cat)) list.add(cat)
+                                    else list.remove(cat)
                                 }
                                 listener.onSuccess()
                             }
@@ -43,8 +46,6 @@ class RealtimeDatabase {
                 listener.onFailure(error.message)
             }
         })
-
-
-        return Category.listCategory
+        return list
     }
 }

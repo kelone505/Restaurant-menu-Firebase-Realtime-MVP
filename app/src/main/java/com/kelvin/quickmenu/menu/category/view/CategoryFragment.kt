@@ -34,7 +34,6 @@ class CategoryFragment : Fragment(),CategoryContract.View {
         return root
     }
 
-
     override fun showCategory(list: ArrayList<Category>) {
         adapter = CategoryAdapter(requireContext(), R.layout.gv_category_menu,list)
         gridView!!.adapter=adapter
@@ -46,12 +45,8 @@ class CategoryFragment : Fragment(),CategoryContract.View {
         super.onDestroy()
     }
 
-
     override fun showErrorMsg(msg: String) {
         Toast.makeText(requireContext(), msg, Toast.LENGTH_LONG).show()
     }
-
-
-
 
 }
