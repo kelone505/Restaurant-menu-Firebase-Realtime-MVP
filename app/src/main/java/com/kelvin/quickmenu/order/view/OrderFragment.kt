@@ -54,6 +54,9 @@ class OrderFragment : Fragment(),OrderContract.View {
             allowTips()
             presenter.loadOrderInvoice()
         }
+        btnConfirm.setOnClickListener {
+            presenter.onClickOrderButton()
+        }
         return root
     }
 
@@ -98,6 +101,10 @@ class OrderFragment : Fragment(),OrderContract.View {
 
     override fun hideProgressDialog() {
       pbLoadingOrder.visibility=View.GONE
+    }
+
+    override fun orderInProcess(post: Boolean) {
+        presenter.onClickOrderButton()
     }
 
 

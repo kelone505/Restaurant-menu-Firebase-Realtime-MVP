@@ -23,10 +23,10 @@ class CategoryAdapter(private val getContext: Context, private val customlayouti
         var rowView = inflater!!.inflate(customlayoutid, parent, false)
         var txtName = rowView.findViewById(R.id.tvName) as TextView
         var img = rowView.findViewById(R.id.ivItemMenuCat) as ImageView
-        txtName!!.setText(list[position].getNameCategory())
+        txtName!!.setText(list[position].getName())
 
         Glide.with(getContext)
-            .load(list[position].getImageCategory())
+            .load(list[position].getImage())
             .centerCrop()
             .error(android.R.drawable.ic_menu_report_image)
             .into(img)

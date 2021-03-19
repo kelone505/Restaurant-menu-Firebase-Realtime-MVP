@@ -1,6 +1,7 @@
 package com.kelvin.quickmenu.order.interfaces
 
 
+import com.kelvin.quickmenu.common.Callback
 import com.kelvin.quickmenu.menu.itemsByCategory.model.ItemByCategory
 import java.lang.StringBuilder
 
@@ -13,6 +14,7 @@ interface OrderContract {
         fun allowTips()
         fun showProgressDialog()
         fun hideProgressDialog()
+        fun orderInProcess(post:Boolean)
     }
     interface Presenter{
         fun confirmTips(conf:Boolean)
@@ -23,9 +25,11 @@ interface OrderContract {
         fun onResume()
         fun headerInfo()
         fun loadOrderInvoice()
+        fun onClickOrderButton()
     }
     interface Interactor{
         fun addItemQuantity(item:ItemByCategory,quantity:Int)
+        fun removeItem(item:ItemByCategory)
         fun getItems():HashMap<ItemByCategory,Int>
         fun getClient():String
         fun setTips(confirm:Boolean)
@@ -38,5 +42,6 @@ interface OrderContract {
         fun getQuantity():String
         fun getPrice():String
         fun getTotalByItems():String
+        fun postOrder(listener:Callback):Boolean
     }
 }

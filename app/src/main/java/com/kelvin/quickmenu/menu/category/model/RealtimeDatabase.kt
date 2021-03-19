@@ -26,13 +26,8 @@ class RealtimeDatabase {
                             if (snapshot.getValue()!=null) {
                                 for (n in snapshot.children) {
                                     var cat=n.getValue(Category::class.java) as Category
-                                     if (cat.getImageCategory().isNullOrBlank() || cat.getImageCategory().isNullOrBlank()) {
                                          cat.setId(n.key!!.toInt())
-                                         cat.setNameCategory(n.child("name").getValue(String::class.java).toString())
-                                         cat.setImageCategory(n.child("image").getValue(String::class.java).toString())
-                                         cat.setStatusCat(n.child("status").getValue(Boolean::class.java) as Boolean)
-                                     }
-                                    if (cat.getStatusCat() && !list.contains(cat)) list.add(cat)
+                                    if (cat.getStatus() && !list.contains(cat)) list.add(cat)
                                     else list.remove(cat)
                                 }
                                 listener.onSuccess()

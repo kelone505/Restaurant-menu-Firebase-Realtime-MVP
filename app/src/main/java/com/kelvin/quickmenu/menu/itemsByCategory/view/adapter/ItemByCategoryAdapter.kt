@@ -1,7 +1,6 @@
 package com.kelvin.quickmenu.menu.itemsByCategory.view.adapter
 
 import android.content.Context
-import android.telecom.Call
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,13 +8,9 @@ import android.widget.*
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
-import com.kelvin.quickmenu.MainActivity
 import com.kelvin.quickmenu.R
-import com.kelvin.quickmenu.common.Callback
 import com.kelvin.quickmenu.common.utility
 import com.kelvin.quickmenu.menu.itemsByCategory.model.ItemByCategory
-import com.kelvin.quickmenu.order.interfaces.OrderContract
-import com.kelvin.quickmenu.order.model.Order
 import com.kelvin.quickmenu.order.model.OrderSingleton
 import java.math.BigDecimal
 
@@ -62,11 +57,10 @@ class ItemByCategoryAdapter(private val itemList:ArrayList<ItemByCategory>,
 
             if(OrderSingleton.getItems().any{it.key.getName()==name.text}){
                 count = OrderSingleton.getItems().filter {it.key.getName()==name.text}.map{it.value}[0]
-                Toast.makeText(context, "testt ${count}", Toast.LENGTH_SHORT).show()
                 btnLess.isEnabled=true
                 cbAddToOrder.isChecked=true
                 quantity.setText("${count}")
-                price.setText("${utility.currencyFormat.format(item.getPrice()*count.toBigDecimal())}")
+                price.setText("${utility.currencyFormat.format(item.getPrice()* count.toDouble())}")
             }else{
                 quantity.setText("${count}")
                 price.setText("${utility.currencyFormat.format(item.getPrice())}")
@@ -78,7 +72,8 @@ class ItemByCategoryAdapter(private val itemList:ArrayList<ItemByCategory>,
             btnLess.setOnClickListener {
                 if(count>0) {
                     quantity.setText("${--count}")
-                    price.setText("${utility.currencyFormat.format(item.getPrice()* BigDecimal.valueOf(count.toDouble()))}")
+                    //price.setText("${utility.currencyFormat.format(item.getPrice()* BigDecimal.valueOf(count.toDouble()))}")
+                    price.setText("${utility.currencyFormat.format(item.getPrice()* count.toDouble())}")
                     if(count==0){btnLess.setEnabled(false)
                         price.setText("${utility.currencyFormat.format(item.getPrice())}")
                     }
@@ -92,7 +87,7 @@ class ItemByCategoryAdapter(private val itemList:ArrayList<ItemByCategory>,
             btnPlus.setOnClickListener {
                 if(count<item.getAvailable())
                     quantity.setText("${++count}")
-                    price.setText("${utility.currencyFormat.format(item.getPrice()* BigDecimal.valueOf(count.toDouble()))}")
+                    price.setText("${utility.currencyFormat.format(item.getPrice()* count.toDouble())}")
                 btnLess.setEnabled(true)
                 if(cbAddToOrder.isChecked){OrderSingleton.addItemQuantity(item,count)}
             }

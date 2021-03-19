@@ -2,6 +2,7 @@ package com.kelvin.quickmenu.order.model
 
 
 import com.jaredrummler.android.device.DeviceName
+import com.kelvin.quickmenu.common.Callback
 import com.kelvin.quickmenu.common.utility
 import com.kelvin.quickmenu.menu.itemsByCategory.model.ItemByCategory
 import com.kelvin.quickmenu.order.interfaces.OrderContract
@@ -24,7 +25,7 @@ object OrderSingleton:OrderContract.Interactor {
     override  fun addItemQuantity(item:ItemByCategory,quantity:Int){
         this.itemQuantity.put(item,quantity)
     }
-    fun removeItem(item:ItemByCategory){
+    override fun removeItem(item:ItemByCategory){
         if(itemQuantity!!.contains(item)) this.itemQuantity!!.remove(item)}
     override fun getItems(): HashMap<ItemByCategory, Int> {
         return this.itemQuantity
@@ -48,7 +49,7 @@ object OrderSingleton:OrderContract.Interactor {
 
     override fun getSubtotal(): Double {
         var subTotal=0.0
-        for (x in getItems()){subTotal+=(x.key.getPrice() * BigDecimal(x.value.toDouble())).toDouble()}
+        for (x in getItems()){subTotal+=(x.key.getPrice() * x.value.toDouble())}
         return subTotal
     }
 
@@ -74,9 +75,21 @@ object OrderSingleton:OrderContract.Interactor {
 
     override fun getTotalByItems(): String {
         var totalList=""
-        for(x in getItems()){totalList+="${utility.currencyFormat.format(x.key.getPrice() * BigDecimal(x.value.toDouble()))}\n"}
+        for(x in getItems()){totalList+="${utility.currencyFormat.format(x.key.getPrice() * x.value.toDouble())}\n"}
         return totalList
 
+    }
+
+    override fun postOrder(listener: Callback): Boolean {
+        var post:Boolean=RealtimeDatabase().postOrder(object : Callback{
+            override fun onSuccess() {
+                listener.onSuccess()
+            }
+            override fun onFailure(errorMsg: String) {
+                listener.onFailure(errorMsg)
+            }
+        })
+            return post
     }
 
 

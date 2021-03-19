@@ -1,13 +1,11 @@
 package com.kelvin.quickmenu.order.presenter
 
+import com.kelvin.quickmenu.R
 import com.kelvin.quickmenu.common.Callback
 import com.kelvin.quickmenu.common.utility
-import com.kelvin.quickmenu.menu.itemsByCategory.model.ItemByCategory
 import com.kelvin.quickmenu.order.interfaces.OrderContract
-import com.kelvin.quickmenu.order.model.Order
 import com.kelvin.quickmenu.order.model.OrderSingleton
-import java.lang.StringBuilder
-import java.math.BigDecimal
+import com.kelvin.quickmenu.order.model.RealtimeDatabase
 
 class OrderPresenterImpl:OrderContract.Presenter {
     private var mInteractor:OrderContract.Interactor
@@ -19,18 +17,17 @@ class OrderPresenterImpl:OrderContract.Presenter {
     }
 
     override fun confirmTips(conf: Boolean) {
-        OrderSingleton.setTips(conf)
+        mInteractor.setTips(conf)
     }
 
     override fun checkboxStatus(): Boolean {
-        return OrderSingleton.getTips()
+        return mInteractor.getTips()
     }
 
     override fun listOfItems(){
-      //  mView!!.showProgressDialog()
-        var v=OrderSingleton
        if(mView!=null){
-           mView!!.showItemselected(v.getName(),v.getQuantity(),v.getPrice(),v.getTotalByItems())
+           mView!!.showItemselected(mInteractor.getName(),mInteractor.getQuantity()
+                   ,mInteractor.getPrice(),mInteractor.getTotalByItems())
        }
     }
 
@@ -42,7 +39,6 @@ class OrderPresenterImpl:OrderContract.Presenter {
         headerInfo()
         listOfItems()
         loadOrderInvoice()
-
     }
 
     override fun onResume() {
@@ -55,13 +51,25 @@ class OrderPresenterImpl:OrderContract.Presenter {
     }
 
     override fun loadOrderInvoice() {
-        var v=OrderSingleton
-        if (mView!=null && v.getItems().size!=0){
-                mView!!.showDetailsAmount("${utility.currencyFormat.format(v.getSubtotal())}",
-                "${utility.currencyFormat.format(v.getTaxCalc())}",
-                        "${utility.currencyFormat.format(v.getTipsCalc())}",
-                        "${utility.currencyFormat.format(v.getTotalCalc())}")
+        if (mView!=null && mInteractor.getItems().size!=0){
+                mView!!.showDetailsAmount("${utility.currencyFormat.format(mInteractor.getSubtotal())}",
+                "${utility.currencyFormat.format(mInteractor.getTaxCalc())}",
+                        "${utility.currencyFormat.format(mInteractor.getTipsCalc())}",
+                        "${utility.currencyFormat.format(mInteractor.getTotalCalc())}")
             }
         }
 
+    override fun onClickOrderButton() {
+      if (mInteractor.getItems().size!=0 && mView!=null){
+          RealtimeDatabase().postOrder(object : Callback{
+              override fun onSuccess() {
+                  mView!!.showMsgConfirmation("Your order is in process!!")
+                  mView!!.showProgressDialog()
+              }
+              override fun onFailure(errorMsg: String) {
+                mView!!.showMsgConfirmation(errorMsg)
+              }
+          })
+      } else mView!!.showMsgConfirmation("Please add items from Menu")
     }
+}

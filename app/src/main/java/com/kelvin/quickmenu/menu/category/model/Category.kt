@@ -10,10 +10,10 @@ class Category {
 
     fun setId(id:Int){this._id=id}
     fun getId():Int{return this._id}
-    fun setNameCategory(name:String){this.name=name}
-    fun getNameCategory():String{return this.name}
-    fun setImageCategory(image:String){this.image=image}
-    fun getImageCategory():String{return this.image}
-    fun setStatusCat(status:Boolean){this.status=status}
-    fun getStatusCat():Boolean{return this.status}
+    fun setName(name:String){this.name=name}
+    fun getName():String{return this.name}
+    fun setImage(image:String){this.image=image}
+    fun getImage():String{return this.image}
+    fun setStatus(status:Boolean){this.status=status}
+    fun getStatus():Boolean{return this.status}
 }

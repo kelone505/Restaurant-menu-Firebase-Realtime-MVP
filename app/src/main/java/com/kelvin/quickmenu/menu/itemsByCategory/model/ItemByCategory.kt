@@ -29,8 +29,8 @@ class ItemByCategory {
     fun setPrice(price:Double){
         if(price<=0.0) this.price= MIN_PRICE
         else this.price=price}
-    fun getPrice():BigDecimal{
-        return utility.roundTwoDecimal(this.price)}
+    fun getPrice():Double{
+        return this.price}
     fun setAvailable(available:Int){this.available=available}
     fun getAvailable():Int{return this.available}
     fun setStatus(status:Boolean){this.status=status}

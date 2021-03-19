@@ -2,12 +2,14 @@ package com.kelvin.quickmenu.firebaseRT
 
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
+import com.kelvin.quickmenu.common.utility
 
- object FirebaseRealtimeDatabaseAPI {
+object FirebaseRealtimeDatabaseAPI {
     const val PATH_MENU="menu"
      const val PATH_CAT="category"
      const val PATH_ITEM="items"
-     const val PATH_ORDER="order";
+     const val PATH_ORDER="order"
+
 
     private var firebaseRealtimeDBcon:DatabaseReference;
 
