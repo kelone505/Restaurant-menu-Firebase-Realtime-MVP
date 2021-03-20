@@ -32,14 +32,12 @@ class CategoryAdapter(private val getContext: Context, private val customlayouti
             .into(img)
 
         rowView.setOnClickListener {
-            val itemsFragment= ItemsByCategoryFragment()
             val bundle= Bundle()
              MainActivity.itemByCategory= ItemsByCategoryFragment()
             bundle.putInt(FirebaseRealtimeDatabaseAPI.PATH_CAT,list[position].getId())
             MainActivity.itemByCategory.arguments=bundle
 
             MainActivity.manager.beginTransaction().replace(R.id.nav_host_fragment,MainActivity.itemByCategory)
-                    .setCustomAnimations(R.anim.fragment_open_enter,R.anim.fragment_open_exit)
                     .hide(MainActivity.categoryFragment)
                     .addToBackStack(null).commit()
         }

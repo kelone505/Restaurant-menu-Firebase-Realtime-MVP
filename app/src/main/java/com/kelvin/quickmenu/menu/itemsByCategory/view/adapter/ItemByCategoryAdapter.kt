@@ -45,7 +45,7 @@ class ItemByCategoryAdapter(private val itemList:ArrayList<ItemByCategory>,
             var btnPlus=itemView.findViewById<Button>(R.id.btnPlus)
             var cbAddToOrder=itemView.findViewById<CheckBox>(R.id.cbAddToOrder)
             var count=0
-
+            //TODO: fix this Spaghetti code :D
             btnLess.setEnabled(false)
 
             Glide.with(context).load(item.getImage()).centerCrop()
@@ -92,7 +92,7 @@ class ItemByCategoryAdapter(private val itemList:ArrayList<ItemByCategory>,
                 if(cbAddToOrder.isChecked){OrderSingleton.addItemQuantity(item,count)}
             }
             cbAddToOrder.setOnClickListener {
-                if(cbAddToOrder.isChecked){
+                if(cbAddToOrder.isChecked && count>0){
                     OrderSingleton.addItemQuantity(item,count)
                 } else if(OrderSingleton.getItems().contains(item))
                 {OrderSingleton.removeItem(item)

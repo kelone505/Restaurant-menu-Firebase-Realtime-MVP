@@ -19,6 +19,7 @@ import com.kelvin.quickmenu.menu.itemsByCategory.view.adapter.ItemByCategoryAdap
 
 class ItemsByCategoryFragment : Fragment(),ItemContract.View {
     var mPresenter:ItemsPresenterImpl= ItemsPresenterImpl(this,ItemInteractorImpl())
+    var id:Int?=0
     lateinit var adapter:ItemByCategoryAdapter
     lateinit var layoutManager:RecyclerView.LayoutManager
     lateinit var rvItem:RecyclerView
@@ -28,12 +29,11 @@ class ItemsByCategoryFragment : Fragment(),ItemContract.View {
     ): View? {
         // Inflate the layout for this fragment
         val root=inflater.inflate(R.layout.fragment_items_by_category, container, false)
-        val id=arguments?.getInt(FirebaseRealtimeDatabaseAPI.PATH_CAT)
+        id=arguments?.getInt(FirebaseRealtimeDatabaseAPI.PATH_CAT)!!
         rvItem=root.findViewById(R.id.rvItemsByCategory)
         mPresenter.listItems(id!!)
         return root
     }
-
 
     override fun showItemsByCategory(items: ArrayList<ItemByCategory>) {
         adapter= ItemByCategoryAdapter(items,requireContext())

@@ -36,7 +36,6 @@ class RealtimeDatabase {
                             listener.onFailure(e.message.toString())
                         }
             }
-
             override fun onCancelled(error: DatabaseError) {
                 listener.onFailure(error.message)
             }

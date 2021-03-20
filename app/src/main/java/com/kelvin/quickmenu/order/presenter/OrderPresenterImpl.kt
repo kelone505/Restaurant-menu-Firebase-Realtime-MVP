@@ -1,5 +1,6 @@
 package com.kelvin.quickmenu.order.presenter
 
+import com.kelvin.quickmenu.MainActivity
 import com.kelvin.quickmenu.R
 import com.kelvin.quickmenu.common.Callback
 import com.kelvin.quickmenu.common.utility
@@ -8,17 +9,18 @@ import com.kelvin.quickmenu.order.model.OrderSingleton
 import com.kelvin.quickmenu.order.model.RealtimeDatabase
 
 class OrderPresenterImpl:OrderContract.Presenter {
-    private var mInteractor:OrderContract.Interactor
+    private var mInteractor:OrderSingleton
     private var mView:OrderContract.View?
 
-    constructor(pView:OrderContract.View, pInteractor:OrderContract.Interactor){
+    constructor(pView:OrderContract.View){
         this.mView=pView
-        this.mInteractor=pInteractor
+        this.mInteractor=OrderSingleton
     }
 
     override fun confirmTips(conf: Boolean) {
         mInteractor.setTips(conf)
     }
+
 
     override fun checkboxStatus(): Boolean {
         return mInteractor.getTips()
@@ -29,6 +31,7 @@ class OrderPresenterImpl:OrderContract.Presenter {
            mView!!.showItemselected(mInteractor.getName(),mInteractor.getQuantity()
                    ,mInteractor.getPrice(),mInteractor.getTotalByItems())
        }
+
     }
 
     override fun onDestroy() {
@@ -36,14 +39,13 @@ class OrderPresenterImpl:OrderContract.Presenter {
     }
 
     override fun onViewCreated() {
-        headerInfo()
         listOfItems()
         loadOrderInvoice()
-    }
-
-    override fun onResume() {
-        Thread.sleep(1000)
-        mView!!.hideProgressDialog()
+        if(MainActivity.orderProcess){
+            mView!!.showProgressDialog()
+            mView!!.disableUIElement()
+        } else
+        {mView!!.hideProgressDialog()}
     }
 
     override fun headerInfo() {
@@ -61,10 +63,12 @@ class OrderPresenterImpl:OrderContract.Presenter {
 
     override fun onClickOrderButton() {
       if (mInteractor.getItems().size!=0 && mView!=null){
-          RealtimeDatabase().postOrder(object : Callback{
+          mInteractor.postOrder(object : Callback{
               override fun onSuccess() {
                   mView!!.showMsgConfirmation("Your order is in process!!")
                   mView!!.showProgressDialog()
+                  MainActivity.orderProcess=true
+                  mView!!.disableUIElement()
               }
               override fun onFailure(errorMsg: String) {
                 mView!!.showMsgConfirmation(errorMsg)

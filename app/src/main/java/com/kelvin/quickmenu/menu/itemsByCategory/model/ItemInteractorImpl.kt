@@ -17,7 +17,6 @@ class ItemInteractorImpl:ItemContract.Interactor {
                 listener.onFailure(errorMsg)
             }
         })
-
         return listItem
     }
 }

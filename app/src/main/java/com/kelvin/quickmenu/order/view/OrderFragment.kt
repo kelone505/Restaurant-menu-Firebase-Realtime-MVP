@@ -13,7 +13,7 @@ import com.kelvin.quickmenu.order.model.OrderSingleton
 import com.kelvin.quickmenu.order.presenter.OrderPresenterImpl
 
 class OrderFragment : Fragment(),OrderContract.View {
-    private var presenter=OrderPresenterImpl(this,OrderSingleton)
+    private var presenter=OrderPresenterImpl(this)
    private lateinit var tvItem:TextView
     private lateinit var tvPrice:TextView
     private lateinit var tvQuantity:TextView
@@ -42,9 +42,9 @@ class OrderFragment : Fragment(),OrderContract.View {
         etSubTotal=root.findViewById(R.id.etSubTotal)
         etTax=root.findViewById(R.id.etTax)
         etTips=root.findViewById(R.id.etTips)
-        etTotal=root.findViewById(R.id.etTotal)
         btnConfirm=root.findViewById(R.id.btnConfirm)
         pbLoadingOrder=root.findViewById(R.id.pbLoadingOrder)
+        etTotal=root.findViewById(R.id.etTotal)
         presenter.onViewCreated()
         cbTips.isChecked=presenter.checkboxStatus()
         tvTax.setText("TAX ${utility.percentage.format(OrderSingleton.TAX)}:")
@@ -69,9 +69,7 @@ class OrderFragment : Fragment(),OrderContract.View {
         tvItem.setText("Items\n${item}")
         tvQuantity.setText("Quantity\n${quantity}")
         tvPrice.setText("Price\n${price}")
-        tvTotal.setText("Total\n${total}")
-
-    }
+        tvTotal.setText("Total\n${total}")}
 
     override fun showHeaderOrder(header: String) {
         tvHeaderO.setText("Client: "+header)
@@ -105,6 +103,11 @@ class OrderFragment : Fragment(),OrderContract.View {
 
     override fun orderInProcess(post: Boolean) {
         presenter.onClickOrderButton()
+    }
+
+    override fun disableUIElement() {
+        cbTips.isEnabled=false
+        btnConfirm.isEnabled=false
     }
 
 

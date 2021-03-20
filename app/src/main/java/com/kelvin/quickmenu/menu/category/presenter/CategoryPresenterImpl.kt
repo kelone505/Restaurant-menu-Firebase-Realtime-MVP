@@ -31,6 +31,4 @@ class CategoryPresenterImpl:CategoryContract.Presenter {
     override fun onViewCreated() {
         listCategory()
     }
-
-
 }

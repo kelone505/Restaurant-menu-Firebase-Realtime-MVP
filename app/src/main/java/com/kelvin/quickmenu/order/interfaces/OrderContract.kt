@@ -15,6 +15,7 @@ interface OrderContract {
         fun showProgressDialog()
         fun hideProgressDialog()
         fun orderInProcess(post:Boolean)
+        fun disableUIElement()
     }
     interface Presenter{
         fun confirmTips(conf:Boolean)
@@ -22,26 +23,9 @@ interface OrderContract {
         fun listOfItems()
         fun onDestroy()
         fun onViewCreated()
-        fun onResume()
         fun headerInfo()
         fun loadOrderInvoice()
         fun onClickOrderButton()
     }
-    interface Interactor{
-        fun addItemQuantity(item:ItemByCategory,quantity:Int)
-        fun removeItem(item:ItemByCategory)
-        fun getItems():HashMap<ItemByCategory,Int>
-        fun getClient():String
-        fun setTips(confirm:Boolean)
-        fun getTips():Boolean
-        fun getTotalCalc():Double
-        fun getTaxCalc():Double
-        fun getTipsCalc():Double
-        fun getSubtotal():Double
-        fun getName():String
-        fun getQuantity():String
-        fun getPrice():String
-        fun getTotalByItems():String
-        fun postOrder(listener:Callback):Boolean
-    }
+
 }

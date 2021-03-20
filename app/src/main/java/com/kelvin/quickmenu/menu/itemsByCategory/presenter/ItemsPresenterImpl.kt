@@ -30,9 +30,5 @@ class ItemsPresenterImpl:ItemContract.Presenter {
         mView=null
     }
 
-  /*  override fun onViewCreated() {
-        listItems()
-    }*/
-
 
 }

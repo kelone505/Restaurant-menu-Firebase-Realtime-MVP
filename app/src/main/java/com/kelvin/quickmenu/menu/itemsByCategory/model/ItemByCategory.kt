@@ -1,8 +1,5 @@
 package com.kelvin.quickmenu.menu.itemsByCategory.model
 
-import com.kelvin.quickmenu.common.utility
-import java.math.BigDecimal
-
 class ItemByCategory {
     companion object{
         const val MIN_PRICE:Double=0.01
