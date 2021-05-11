@@ -1,15 +1,15 @@
 package com.kelvin.quickmenu.menu.category.model
 
 class Category {
-    private var _id:Int=0
+    private var _id:String=""
     private var name:String=""
     private var image:String=""
     private var status:Boolean=false
 
     constructor(){}
 
-    fun setId(id:Int){this._id=id}
-    fun getId():Int{return this._id}
+    fun setId(id:String){this._id=id}
+    fun getId():String{return this._id}
     fun setName(name:String){this.name=name}
     fun getName():String{return this.name}
     fun setImage(image:String){this.image=image}

@@ -26,7 +26,7 @@ class RealtimeDatabase {
                             if (snapshot.getValue()!=null) {
                                 for (n in snapshot.children) {
                                     var cat=n.getValue(Category::class.java) as Category
-                                         cat.setId(n.key!!.toInt())
+                                         cat.setId(n.key!!.toString())
                                     if (cat.getStatus() && !list.contains(cat)) list.add(cat)
                                     else list.remove(cat)
                                 }
