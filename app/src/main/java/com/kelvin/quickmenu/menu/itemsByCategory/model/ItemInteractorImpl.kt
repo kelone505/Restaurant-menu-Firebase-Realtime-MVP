@@ -7,7 +7,7 @@ class ItemInteractorImpl:ItemContract.Interactor {
     private var realtimeDatabase:RealtimeDatabase
     constructor(){this.realtimeDatabase= RealtimeDatabase()
     }
-    override fun getAllItemsByCategory(id:Int,listener: Callback): ArrayList<ItemByCategory> {
+    override fun getAllItemsByCategory(id:String,listener: Callback): ArrayList<ItemByCategory> {
         var listItem:ArrayList<ItemByCategory> = ArrayList()
         listItem=realtimeDatabase.getAllItemsByCategory(id, object : Callback{
             override fun onSuccess() {

@@ -10,11 +10,11 @@ interface ItemContract {
     }
 
     interface Presenter{
-        fun listItems(id:Int)
+        fun listItems(id:String)
         fun onViewDestroy()
     }
 
     interface Interactor{
-        fun getAllItemsByCategory(id:Int,listener:Callback):ArrayList<ItemByCategory>
+        fun getAllItemsByCategory(id:String,listener:Callback):ArrayList<ItemByCategory>
     }
 }

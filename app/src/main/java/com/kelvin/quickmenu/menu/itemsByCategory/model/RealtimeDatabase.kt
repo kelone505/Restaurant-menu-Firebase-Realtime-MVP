@@ -18,7 +18,7 @@ class RealtimeDatabase {
         this.list= ArrayList()
     }
 
-    fun getAllItemsByCategory(id:Int,listener:Callback):ArrayList<ItemByCategory>{
+    fun getAllItemsByCategory(id:String,listener:Callback):ArrayList<ItemByCategory>{
 
         mRealtimeDatabase.getItemByCategory(id).addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {

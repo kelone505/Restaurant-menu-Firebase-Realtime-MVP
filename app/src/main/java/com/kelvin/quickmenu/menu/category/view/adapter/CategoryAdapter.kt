@@ -34,7 +34,7 @@ class CategoryAdapter(private val getContext: Context, private val customlayouti
         rowView.setOnClickListener {
             val bundle= Bundle()
              MainActivity.itemByCategory= ItemsByCategoryFragment()
-            bundle.putInt(FirebaseRealtimeDatabaseAPI.PATH_CAT,list[position].getId())
+            bundle.putString(FirebaseRealtimeDatabaseAPI.PATH_CAT,list[position].getId())
             MainActivity.itemByCategory.arguments=bundle
 
             MainActivity.manager.beginTransaction().replace(R.id.nav_host_fragment,MainActivity.itemByCategory)

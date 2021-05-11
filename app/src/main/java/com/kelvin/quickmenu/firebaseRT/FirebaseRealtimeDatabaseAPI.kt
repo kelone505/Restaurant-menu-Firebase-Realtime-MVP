@@ -20,7 +20,7 @@ object FirebaseRealtimeDatabaseAPI {
      fun getReferenceRT():DatabaseReference{return getRoot().ref}
      fun getMenu():DatabaseReference{return getReferenceRT().child(PATH_MENU)}
      fun getMenuCategorie():DatabaseReference{return getMenu().child(PATH_CAT)}
-     fun getItemByCategory(id:Int):DatabaseReference{
+     fun getItemByCategory(id:String):DatabaseReference{
          return getMenuCategorie().child(id.toString()).child(PATH_ITEM)}
      fun getOrder():DatabaseReference{return getReferenceRT().child(PATH_ORDER)}
 

@@ -14,7 +14,7 @@ class ItemsPresenterImpl:ItemContract.Presenter {
         this.mInteractor=pInteractor
     }
 
-    override fun listItems(id:Int) {
+    override fun listItems(id:String) {
         var listItem:ArrayList<ItemByCategory> = ArrayList()
         listItem=mInteractor.getAllItemsByCategory(id, object : Callback{
             override fun onSuccess() {
